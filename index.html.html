@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Aritmética ESO</title>
+    <style>
+        :root {
+            --primary: #ffc107;
+            --primary-dark: #ffa000;
+            --bg: #fff3e0;
+            --text: #5d4037;
+            --red: #d32f2f;
+            --green: #388e3c;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Quita el flash azul al tocar en Android/iOS */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            /* Usamos dvh para evitar problemas con la barra del navegador en móvil */
+            height: 100dvh; 
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            user-select: none;
+            /* Respetar áreas seguras en iPhone X y superiores */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        /* Esto hace que en PC se vea centrado y bonito, y en móvil ocupe todo */
+        .app-container {
+            width: 100%;
+            max-width: 500px; /* Ancho máximo para tablets/PC */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* --- PAnteriorALLAS (Menú y Juego) --- */
+        #menu-screen, #game-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        #game-screen { display: none; }
+
+        /* --- TIPOGRAFÍA Y ELEMENTOS RESPONSIVOS --- */
+        h1 { 
+            color: var(--text); 
+            margin-bottom: 5vh; 
+            font-size: clamp(2rem, 5vw, 3rem); /* El texto escala según la pAnterioralla */
+            text-align: center;
+        }
+
+        /* Botones del menú */
+        .menu-btn {
+            background: white;
+            border: 3px solid var(--primary);
+            color: var(--text);
+            width: 80%;
+            padding: 15px;
+            margin: 8px 0;
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ccc;
+            transition: transform 0.1s;
+        }
+        .menu-btn:active { transform: translateY(4px); box-shadow: none; }
+        .menu-btn.mix { background: var(--primary); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 0 var(--primary-dark); }
+
+        /* --- JUEGO --- */
+        .nav-bar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 10px;
+            flex-shrink: 0; /* Evita que se aplaste */
+        }
+        
+        .back-btn {
+            background: rgba(0,0,0,0.05);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .top-bar {
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text);
+            margin: 10px 0;
+            flex-shrink: 0;
+        }
+        .icon-check { color: var(--green); }
+        .icon-cross { color: var(--red); }
+
+        /* Operación matemática */
+        .operation-display {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* clamp(mínimo, ideal, máximo) para que no se rompa */
+            font-size: clamp(3rem, 12vw, 5rem); 
+            font-weight: bold;
+            color: #e65100;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Rejilla de respuestas */
+        .grid-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 95%;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .option-btn {
+            background-color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            /* Altura dinámica: ocupa espacio disponible pero no más de 100px */
+            height: clamp(60px, 15vh, 100px); 
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 5px 0 var(--primary-dark);
+            cursor: pointer;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-btn:active { transform: translateY(5px); box-shadow: none; }
+
+        .last-operation-bar {
+            width: 100%;
+            background-color: rgba(0,0,0,0.05);
+            color: #777;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            min-height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(2px); /* Efecto borroso elegAnteriore */
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-title { color: var(--red); font-size: 2rem; margin: 0 0 15px 0; }
+        .modal-op { font-size: 1.5rem; font-weight: bold; margin: 10px 0; color: #333; }
+        
+        .modal-exp { 
+            font-size: 1.2rem; 
+            line-height: 1.4; 
+            color: #333; 
+            margin-bottom: 25px; 
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+            text-align: left;
+        }
+
+        .modal-btn {
+            background: var(--primary);
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* --- MEDIA QUERIES PARA PAnteriorALLAS PEQUEÑAS/HORIZONTALES --- */
+        @media (max-height: 600px) {
+            h1 { margin-bottom: 10px; font-size: 1.5rem; }
+            .menu-btn { padding: 10px; margin: 4px 0; }
+            .option-btn { height: 60px; font-size: 1.5rem; }
+            .operation-display { font-size: 2.5rem; }
+            .modal-content { padding: 15px; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="menu-screen">
+            <h1>Aritmética ESO</h1>
+            <button class="menu-btn" onclick="startGame('sum')">Suma (+)</button>
+            <button class="menu-btn" onclick="startGame('sub')">Resta (-)</button>
+            <button class="menu-btn" onclick="startGame('mul')">Multiplicación (×)</button>
+            <button class="menu-btn" onclick="startGame('div')">División (:)</button>
+            <button class="menu-btn mix" onclick="startGame('mix')">Mix Aleatorio</button>
+        </div>
+
+        <div id="game-screen">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="goHome()">🏠</button>
+            </div>
+            
+            <div class="top-bar">
+                <div><span class="icon-check">✔</span> <span id="score-correct">0</span></div>
+                <div><span class="icon-cross">✘</span> <span id="score-wrong">0</span></div>
+            </div>
+
+            <div class="operation-display" id="problem-text"></div>
+
+            <div class="grid-options" id="options-container"></div>
+            
+            <div class="last-operation-bar" id="last-op-display"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="feedback-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">¡Incorrecto!</h2>
+            <div class="modal-op" id="modal-problem"></div>
+            <div class="modal-exp" id="modal-explanation"></div>
+            <button class="modal-btn" onclick="nextProblem()">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- AUDIO ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        // --- LÓGICA ---
+        let state = { mode: 'mix', correct: 0, wrong: 0, currentResult: 0, currentExp: "", currentOpText: "" };
+
+        function startGame(mode) {
+            state.mode = mode;
+            state.correct = 0; state.wrong = 0;
+            updateStats();
+            document.getElementById('last-op-display').innerText = "";
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'flex';
+            generateProblem();
+        }
+
+        function goHome() {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'flex';
+        }
+
+        function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        
+        // SIN CEROS
+        function getNumber() {
+            let n = rnd(1, 9);
+            return Math.random() < 0.5 ? n : -n;
+        }
+
+        function fmt(n) {
+            let sign = n >= 0 ? "+" : "";
+            return `(${sign}${n})`;
+        }
+
+        function fmtS(n) {
+            if (n > 0) return "+" + n;
+            if (n === 0) return "0";
+            return "" + n;
+        }
+
+        function generateProblem() {
+            let mode = state.mode;
+            if (mode === 'mix') mode = ['sum', 'sub', 'mul', 'div'][rnd(0, 3)];
+
+            let a = getNumber();
+            let b = getNumber();
+            let symbol, res, exp;
+
+            if (mode === 'sum') {
+                symbol = "+";
+                res = a + b;
+                exp = ((a >= 0 && b >= 0) || (a < 0 && b < 0)) 
+                    ? "Signos IGUALES:<br>Se SUMAN y se deja el signo." 
+                    : "Signos DISTINTOS:<br>Se RESTAN.<br>Gana el signo del mayor.";
+
+            } else if (mode === 'sub') {
+                symbol = "-";
+                res = a - b;
+                exp = "Resta de enteros:<br>Sumamos el OPUESTO.";
+
+            } else if (mode === 'mul') {
+                symbol = "×";
+                res = a * b;
+                exp = `Regla de Signos:<br>${(a*b) > 0 ? "IGUALES (+)" : "DISTINTOS (-)"}`;
+
+            } else if (mode === 'div') {
+                symbol = ":";
+                let divisor = b; 
+                let cociente = getNumber();
+                a = cociente * divisor; 
+                res = cociente;
+                exp = `Regla de Signos:<br>${(a*b) > 0 ? "IGUALES (+)" : "DISTINTOS (-)"}`;
+            }
+
+            state.currentResult = res;
+            state.currentOpText = `${fmt(a)} ${symbol} ${fmt(b)}`;
+            state.currentExp = exp;
+
+            document.getElementById('problem-text').innerHTML = state.currentOpText;
+            generateOptions(res, a, b);
+        }
+
+        function generateOptions(correct, a, b) {
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            let options = new Set([correct]);
+            if (correct !== 0) options.add(-correct);
+
+            let magSum = Math.abs(a) + Math.abs(b);
+            let magDiff = Math.abs(Math.abs(a) - Math.abs(b));
+            let distractorMag = (Math.abs(correct) === magSum) ? magDiff : magSum;
+            
+            if (state.mode === 'mul' || state.mode === 'div') {
+                distractorMag = Math.abs(a) + Math.abs(b);
+                if (distractorMag === Math.abs(correct)) distractorMag += 1;
+            }
+
+            options.add(distractorMag);
+            options.add(-distractorMag);
+
+            while (options.size < 4) { options.add(rnd(-18, 18)); }
+
+            Array.from(options).sort(() => Math.random() - 0.5).slice(0, 4).forEach(val => {
+                let btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = fmtS(val);
+                btn.onclick = () => checkAnswer(val);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(val) {
+            let historyText = `${state.currentOpText} = ${fmtS(state.currentResult)}`;
+            if (val === state.currentResult) {
+                playTone('win');
+                state.correct++;
+                updateStats();
+                document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
+                generateProblem();
+            } else {
+                playTone('lose');
+                state.wrong++;
+                updateStats();
+                showFeedback(val);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('score-correct').innerText = state.correct;
+            document.getElementById('score-wrong').innerText = state.wrong;
+        }
+
+        function showFeedback(wrongVal) {
+            document.getElementById('modal-problem').innerText = state.currentOpText;
+            document.getElementById('modal-explanation').innerHTML = `${state.currentExp}<br><br>Era <b>${fmtS(state.currentResult)}</b>`;
+            document.getElementById('feedback-modal').style.display = 'flex';
+        }
+
+        function nextProblem() {
+            let historyText = `${state.currentOpText} = ${fmtS(state.currentResult)}`;
+            document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
+            document.getElementById('feedback-modal').style.display = 'none';
+            generateProblem();
+        }
+    </script>
+</body>
+</html>
