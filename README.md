@@ -2,11 +2,10 @@
 
 Aplicación educativa interactiva diseñada para practicar el cálculo mental con números enteros (positivos y negativos). Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
 
-🔗 **Demo en vivo:**
+🔗 **Demo en vivo: https://aritmetica-eso.vercel.app**
 
 ## 🎯 Objetivos Pedagógicos
 Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo**:
-* **Modelo de Fichas:** Explicación visual de la suma/resta mediante el concepto de anulación (fichas blancas vs negras).
 * **Concepto de Opuesto:** Refuerzo de la resta como la suma del opuesto.
 * **Regla de los Signos:** Práctica intensiva para multiplicación y división.
 * **Carga Cognitiva Reducida:** Interfaz limpia que permite al alumno centrarse únicamente en la operación.
