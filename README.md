@@ -1,4 +1,4 @@
-# 🧮 Aritmética ESO - Entrenador de Números Enteros
+# 🧮 Aritmética ESO 
 
 Aplicación educativa interactiva diseñada para practicar el cálculo mental con números enteros (positivos y negativos). Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
 
