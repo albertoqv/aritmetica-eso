@@ -33,3 +33,4 @@ Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo
 
 ---
 *Proyecto desarrollado como recurso educativo para el refuerzo de matemáticas en 1º ESO.*
+Este proyecto está bajo la licencia MIT. Puedes usarlo libremente en tus clases. Copyright © 2026 Alberto Quesada Valle
