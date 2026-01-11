@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <meta name="description" content="Juego interactivo gratuito para practicar operaciones con números enteros (Suma, Resta, Multiplicación, División). Nivel 1º ESO.">
     <meta name="keywords" content="matemáticas, enteros, 1 ESO, cálculo mental, juego educativo, aritmética, números negativos, recursos didácticos">
     <meta name="author" content="Alberto Quesada Valle">
-    <meta property="og:title" content="Práctica de Aritmética con Enteros-ESO">
-    <meta property="og:description" content="Entrenador de cálculo mental con números enteros">
-    <meta property="og:image" content="https://aritmetica-eso.vercel.app/portada_enlace.png"> <meta property="og:url" content="https://aritmetica-eso.vercel.app">
+    <meta property="og:title" content="Práctica de Enteros - ESO">
+    <meta property="og:description" content="¡Domina los signos! Practica operaciones con enteros y aprende de tus errores al instante.">
+    
+    <meta property="og:image" content="https://aritmetica-eso.vercel.app/portada_enlace.png"> 
+    <meta property="og:url" content="https://aritmetica-eso.vercel.app">
     <meta property="og:type" content="website">
+    
     <meta name="theme-color" content="#ffc107">
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="portada.png">
+
     <title>Aritmética ESO</title>
+    
     <style>
         :root {
             --primary: #ffc107;
@@ -25,14 +34,13 @@
 
         * {
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Quita el flash azul al tocar en Android/iOS */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg);
             margin: 0;
-            /* Usamos dvh para evitar problemas con la barra del navegador en móvil */
             height: 100dvh; 
             width: 100vw;
             display: flex;
@@ -41,16 +49,14 @@
             justify-content: center;
             overflow: hidden;
             user-select: none;
-            /* Respetar áreas seguras en iPhone X y superiores */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
         }
 
         /* --- CONTENEDOR PRINCIPAL --- */
-        /* Esto hace que en PC se vea centrado y bonito, y en móvil ocupe todo */
         .app-container {
             width: 100%;
-            max-width: 500px; /* Ancho máximo para tablets/PC */
+            max-width: 500px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -60,7 +66,7 @@
             position: relative;
         }
 
-        /* --- PAnteriorALLAS (Menú y Juego) --- */
+        /* --- PANTALLAS --- */
         #menu-screen, #game-screen {
             width: 100%;
             height: 100%;
@@ -73,11 +79,11 @@
 
         #game-screen { display: none; }
 
-        /* --- TIPOGRAFÍA Y ELEMENTOS RESPONSIVOS --- */
+        /* --- TIPOGRAFÍA --- */
         h1 { 
             color: var(--text); 
             margin-bottom: 5vh; 
-            font-size: clamp(2rem, 5vw, 3rem); /* El texto escala según la pAnterioralla */
+            font-size: clamp(2rem, 5vw, 3rem);
             text-align: center;
         }
 
@@ -99,13 +105,29 @@
         .menu-btn:active { transform: translateY(4px); box-shadow: none; }
         .menu-btn.mix { background: var(--primary); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 0 var(--primary-dark); }
 
+        /* NUEVO: Botón de guía de instalación */
+        .install-guide-btn {
+            background: transparent;
+            border: 2px dashed var(--text);
+            color: var(--text);
+            width: 60%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 1rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .install-guide-btn:hover { opacity: 1; background: rgba(0,0,0,0.05); }
+
         /* --- JUEGO --- */
         .nav-bar {
             width: 100%;
             display: flex;
             justify-content: center;
             padding-top: 10px;
-            flex-shrink: 0; /* Evita que se aplaste */
+            flex-shrink: 0;
         }
         
         .back-btn {
@@ -131,13 +153,11 @@
         .icon-check { color: var(--green); }
         .icon-cross { color: var(--red); }
 
-        /* Operación matemática */
         .operation-display {
             flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            /* clamp(mínimo, ideal, máximo) para que no se rompa */
             font-size: clamp(3rem, 12vw, 5rem); 
             font-weight: bold;
             color: #e65100;
@@ -146,7 +166,6 @@
             width: 100%;
         }
 
-        /* Rejilla de respuestas */
         .grid-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -160,7 +179,6 @@
             background-color: var(--primary);
             border: none;
             border-radius: 12px;
-            /* Altura dinámica: ocupa espacio disponible pero no más de 100px */
             height: clamp(60px, 15vh, 100px); 
             font-size: clamp(1.8rem, 6vw, 2.5rem);
             font-weight: bold;
@@ -190,7 +208,7 @@
             justify-content: center;
         }
 
-        /* --- MODAL --- */
+        /* --- MODAL GENERAL (Feedback) --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -201,7 +219,7 @@
             justify-content: center;
             z-index: 1000;
             padding: 20px;
-            backdrop-filter: blur(2px); /* Efecto borroso elegAnteriore */
+            backdrop-filter: blur(2px);
         }
         .modal-content {
             background: white;
@@ -240,7 +258,7 @@
             width: 100%;
         }
 
-        /* --- MEDIA QUERIES PARA PAnteriorALLAS PEQUEÑAS/HORIZONTALES --- */
+        /* --- MEDIA QUERIES --- */
         @media (max-height: 600px) {
             h1 { margin-bottom: 10px; font-size: 1.5rem; }
             .menu-btn { padding: 10px; margin: 4px 0; }
@@ -259,12 +277,14 @@
     <div class="app-container">
         
         <div id="menu-screen">
-            <h1>Aritmética ESO</h1>
+            <h1>Práctica de Enteros</h1>
             <button class="menu-btn" onclick="startGame('sum')">Suma (+)</button>
             <button class="menu-btn" onclick="startGame('sub')">Resta (-)</button>
             <button class="menu-btn" onclick="startGame('mul')">Multiplicación (×)</button>
             <button class="menu-btn" onclick="startGame('div')">División (:)</button>
             <button class="menu-btn mix" onclick="startGame('mix')">Mix Aleatorio</button>
+            
+            <button class="install-guide-btn" onclick="openInstallModal()">📲 Instalar App</button>
         </div>
 
         <div id="game-screen">
@@ -291,6 +311,31 @@
             <div class="modal-op" id="modal-problem"></div>
             <div class="modal-exp" id="modal-explanation"></div>
             <button class="modal-btn" onclick="nextProblem()">Continuar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="install-modal" style="z-index: 2000;">
+        <div class="modal-content" style="max-width: 350px;">
+            <h2 class="modal-title" style="color:var(--text); margin-bottom:10px;">Instalar App</h2>
+            <p style="margin-bottom:20px; color:#666;">Añade la App a tu pantalla de inicio para jugar a pantalla completa:</p>
+            
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+                <button onclick="showInstruct('ios')" class="modal-btn" style="padding:10px; font-size:1rem; background:#eee; color:#333;">🍏 iPhone</button>
+                <button onclick="showInstruct('android')" class="modal-btn" style="padding:10px; font-size:1rem; background:#eee; color:#333;">🤖 Android</button>
+            </div>
+
+            <div id="instr-ios" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
+                <p>1. Pulsa <b>Compartir</b> <span style="font-size:1.2rem">⎋</span> (abajo centro).</p>
+                <p>2. Baja y pulsa <b>"Añadir a inicio"</b> <span style="font-size:1.2rem">➕</span>.</p>
+                <p>3. Pulsa <b>Añadir</b>.</p>
+            </div>
+
+            <div id="instr-android" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
+                <p>1. Pulsa los <b>3 puntos</b> <span style="font-size:1.2rem">⋮</span> (arriba derecha).</p>
+                <p>2. Pulsa <b>"Instalar aplicación"</b> o <b>"Añadir a pantalla de inicio"</b>.</p>
+            </div>
+
+            <button class="modal-btn" onclick="closeInstallModal()" style="background:var(--text); margin-top:10px;">Cerrar</button>
         </div>
     </div>
 
@@ -321,7 +366,7 @@
             }
         }
 
-        // --- LÓGICA ---
+        // --- LÓGICA JUEGO ---
         let state = { mode: 'mix', correct: 0, wrong: 0, currentResult: 0, currentExp: "", currentOpText: "" };
 
         function startGame(mode) {
@@ -341,7 +386,6 @@
 
         function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
         
-        // SIN CEROS
         function getNumber() {
             let n = rnd(1, 9);
             return Math.random() < 0.5 ? n : -n;
@@ -462,9 +506,37 @@
             document.getElementById('feedback-modal').style.display = 'none';
             generateProblem();
         }
+
+        // --- LÓGICA MODAL INSTALACIÓN ---
+        function openInstallModal() {
+            document.getElementById('install-modal').style.display = 'flex';
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            showInstruct(isAndroid ? 'android' : 'ios');
+        }
+
+        function closeInstallModal() {
+            document.getElementById('install-modal').style.display = 'none';
+        }
+
+        function showInstruct(platform) {
+            const btns = document.querySelectorAll('#install-modal .modal-btn');
+            // Reset botones (indices 0 y 1 son iOS y Android)
+            btns[0].style.background = '#eee'; btns[0].style.color='#333';
+            btns[1].style.background = '#eee'; btns[1].style.color='#333';
+            
+            document.getElementById('instr-ios').style.display = 'none';
+            document.getElementById('instr-android').style.display = 'none';
+
+            if(platform === 'ios') {
+                document.getElementById('instr-ios').style.display = 'block';
+                btns[0].style.background = 'var(--primary)'; 
+                btns[0].style.color = 'white';
+            } else {
+                document.getElementById('instr-android').style.display = 'block';
+                btns[1].style.background = 'var(--primary)';
+                btns[1].style.color = 'white';
+            }
+        }
     </script>
 </body>
 </html>
-
-
-
