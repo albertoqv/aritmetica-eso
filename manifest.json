@@ -1,0 +1,16 @@
+{
+  "name": "Aritmética ESO",
+  "short_name": "Enteros ESO",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fff3e0",
+  "theme_color": "#ffc107",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "portada_enlace.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
