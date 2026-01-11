@@ -55,7 +55,7 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
+       /* --- CONTENEDOR PRINCIPAL --- */
         .app-container {
             width: 100%;
             max-width: 500px;
@@ -63,10 +63,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 10px;
+            justify-content: flex-start; 
+            padding: 20px 10px;
             position: relative;
-        }
+            overflow-y: auto; 
 
         /* --- PANTALLAS --- */
         #menu-screen, #game-screen {
@@ -287,12 +287,10 @@
             <button class="menu-btn mix" onclick="startGame('mix')">Mix Aleatorio</button>
             
             <button class="install-guide-btn" onclick="openInstallModal()">📲 Instalar App</button>
-            <footer style="margin-top: auto; padding-bottom: 20px; font-size: 0.95rem; color: var(--text); text-align: center; opacity: 0.9;">
+           <footer style="margin-top: auto; padding-top: 30px; padding-bottom: 20px; text-align: center; color: var(--text); opacity: 0.9;">
                 <b>© 2026 Alberto Quesada Valle</b><br>
                 <span style="font-size: 0.85rem; opacity: 0.8;">v1.0 • Licencia MIT</span>
             </footer>
-        </div>
-
         <div id="game-screen">
             <div class="nav-bar">
                 <button class="back-btn" onclick="goHome()">🏠</button>
@@ -337,7 +335,8 @@
             </div>
 
             <div id="instr-android" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
-                <p>1. Pulsa los <b>3 puntos</b> <span style="font-size:1.2rem">⋮</span> (arriba derecha).</p>
+               <p>1. Pulsa el menú de opciones <b>( ⋮ o ☰ )</b>.</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: -10px; margin-bottom: 10px;">(Suele estar en una esquina arriba o abajo)</p>
                 <p>2. Pulsa <b>"Instalar aplicación"</b> o <b>"Añadir a pantalla de inicio"</b>.</p>
             </div>
 
@@ -555,6 +554,7 @@
     </script>
 </body>
 </html>
+
 
 
 
