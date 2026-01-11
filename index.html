@@ -271,6 +271,19 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes flashGreen {
+            0% { background-color: var(--bg); }
+            50% { background-color: rgba(76, 175, 80, 0.4); } /* Verde transparente */
+            100% { background-color: var(--bg); }
+        }
+        @keyframes flashRed {
+            0% { background-color: var(--bg); }
+            50% { background-color: rgba(211, 47, 47, 0.4); } /* Rojo transparente */
+            100% { background-color: var(--bg); }
+        }
+
+        .flash-success { animation: flashGreen 0.4s ease-out; }
+        .flash-error { animation: flashRed 0.4s ease-out; }
 
     </style>
 </head>
@@ -489,16 +502,34 @@
 
         function checkAnswer(val) {
             let historyText = `${state.currentOpText} = ${fmtS(state.currentResult)}`;
+            
+            // 1. Cogemos el cuerpo de la página
+            const body = document.body;
+
+            // 2. Limpiamos luces anteriores y forzamos reinicio (Truco técnico)
+            body.classList.remove('flash-success', 'flash-error');
+            void body.offsetWidth; 
+
             if (val === state.currentResult) {
+                // ACIERTO
                 playTone('win');
+                body.classList.add('flash-success'); // <--- AQUÍ SE ENCIENDE LA LUZ VERDE
+                
                 state.correct++;
+                state.streak++; 
                 updateStats();
+                updateStreakUI();
                 document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
                 generateProblem();
             } else {
+                // FALLO
                 playTone('lose');
+                body.classList.add('flash-error'); // <--- AQUÍ SE ENCIENDE LA LUZ ROJA
+                
                 state.wrong++;
+                state.streak = 0; 
                 updateStats();
+                updateStreakUI();
                 showFeedback(val);
             }
         }
@@ -554,6 +585,7 @@
     </script>
 </body>
 </html>
+
 
 
 
