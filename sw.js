@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aritmetica-v3'; 
+const CACHE_NAME = 'aritmetica-v4'; 
 const urlsToCache = [
   './',
   './index.html',
@@ -7,20 +7,14 @@ const urlsToCache = [
   './portada_enlace.png'
 ];
 
-// Instalación: Guardamos los archivos y FORZAMOS la espera
 self.addEventListener('install', event => {
-  // Esta línea obliga al SW a activarse en cuanto se instala, sin esperar
-  self.skipWaiting(); 
-  
+  self.skipWaiting(); // Forza la instalación
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// Activación: Limpiamos cachés viejas y TOMAMOS EL CONTROL
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -33,16 +27,31 @@ self.addEventListener('activate', event => {
       );
     })
   );
-  // Esta línea hace que el SW controle la página inmediatamente sin recargar
-  return self.clients.claim(); 
+  return self.clients.claim();
 });
 
-// Interceptamos peticiones
+// --- ESTA ES LA PARTE QUE CAMBIA LA MAGIA ---
+// Estrategia: Network First (Intentar internet, si falla, ir a caché)
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        return response || fetch(event.request);
+        // 1. Si hay internet y responde bien:
+        // Hacemos una copia de la respuesta nueva en la caché para la próxima vez
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+        return response;
+      })
+      .catch(() => {
+        // 2. Si NO hay internet (falla el fetch):
+        // Devolvemos lo que haya en la memoria
+        return caches.match(event.request);
       })
   );
 });
