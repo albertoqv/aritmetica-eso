@@ -3,6 +3,7 @@
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![PWA](https://img.shields.io/badge/PWA-Offline%20Ready-blueviolet?style=for-the-badge&logo=pwa)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
 > **Aplicación educativa interactiva diseñada para practicar el cálculo mental con números enteros (positivos y negativos).** Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
@@ -12,9 +13,6 @@
 <div align="center">
 
 ## 🔗 [PROBAR DEMO EN VIVO](https://aritmetica-eso.vercel.app)
-
-![Vista Previa de la App](portada.png)
-*(Interfaz adaptada a Móvil y Escritorio)*
 
 </div>
 
@@ -43,13 +41,13 @@ Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo
 
 ## 💻 Aspectos Técnicos
 
-Este proyecto destaca por ser **ligero, rápido y compatible**:
+Este proyecto destaca por ser **ligero, rápido y funcionar sin internet**:
 
 | Característica | Descripción |
 | :--- | :--- |
-| **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Funciona a pantalla completa como una app nativa. |
-| **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks (React, Vue) ni librerías pesadas. Carga instantánea. |
-| **Diseño Responsivo** | Adaptado a cualquier dispositivo: Móvil, Tablet y Pizarra Digital interactiva. |
+| **Offline First (Service Worker)** | Gracias a la implementación de un Service Worker (`sw.js`), la aplicación **funciona sin conexión a internet** una vez cargada por primera vez. |
+| **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Cuenta con `manifest.json` para ejecutarse a pantalla completa como una app nativa. |
+| **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks ni librerías pesadas. Rendimiento máximo en dispositivos antiguos. |
 | **Web Audio API** | Efectos de sonido sintetizados matemáticamente en tiempo real (osciladores) para no depender de archivos mp3 externos. |
 
 ## 🚀 Cómo usar
@@ -57,8 +55,8 @@ Este proyecto destaca por ser **ligero, rápido y compatible**:
 1.  **Acceso:** Entra en [aritmetica-eso.vercel.app](https://aritmetica-eso.vercel.app).
 2.  **Modo:** Selecciona el tipo de operación (Suma, Resta, Multiplicación, División o Mix Aleatorio).
 3.  **Instalación (Recomendado):**
-    * **Android:** Pulsa en "Instalar App" o en los tres puntos del navegador -> "Instalar aplicación".
-    * **iOS (iPhone/iPad):** Pulsa en "Compartir" -> "Añadir a pantalla de inicio".
+    * **Android:** Pulsa el botón "📲 Instalar App" del menú principal.
+    * **iOS (iPhone/iPad):** Pulsa el botón "📲 Instalar App" y sigue las instrucciones (Compartir -> Añadir a inicio).
 
 ## 🛠️ Instalación Local (Para desarrolladores)
 
@@ -68,7 +66,7 @@ Si quieres ver el código o modificarlo:
     ```bash
     git clone [https://github.com/albertoqv/aritmetica-eso.git](https://github.com/albertoqv/aritmetica-eso.git)
     ```
-2.  Abre el archivo `index.html` en tu navegador. ¡No requiere instalación de servidores ni `npm install`!
+2.  Abre el archivo `index.html` en tu navegador.
 
 ## 📄 Licencia y Autoría
 
