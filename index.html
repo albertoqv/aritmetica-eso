@@ -19,7 +19,6 @@
     <link rel="apple-touch-icon" href="icon.png">
     
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="portada_enlace.png">
 
     <title>Aritmética ESO</title>
     
@@ -55,7 +54,7 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-       /* --- CONTENEDOR PRINCIPAL --- */
+        /* --- CONTENEDOR PRINCIPAL --- */
         .app-container {
             width: 100%;
             max-width: 500px;
@@ -67,6 +66,7 @@
             padding: 20px 10px;
             position: relative;
             overflow-y: auto; 
+        } /* <--- AQUÍ FALTABA ESTA LLAVE DE CIERRE */
 
         /* --- PANTALLAS --- */
         #menu-screen, #game-screen {
@@ -75,8 +75,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: center; 
             animation: fadeIn 0.4s ease-out;
+            min-height: 500px; 
         }
 
         #game-screen { display: none; }
@@ -84,7 +85,8 @@
         /* --- TIPOGRAFÍA --- */
         h1 { 
             color: var(--text); 
-            margin-bottom: 5vh; 
+            margin-bottom: 3vh; 
+            margin-top: 2vh;
             font-size: clamp(2rem, 5vw, 3rem);
             text-align: center;
         }
@@ -107,7 +109,7 @@
         .menu-btn:active { transform: translateY(4px); box-shadow: none; }
         .menu-btn.mix { background: var(--primary); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 0 var(--primary-dark); }
 
-        /* NUEVO: Botón de guía de instalación */
+        /* Botón de guía de instalación */
         .install-guide-btn {
             background: transparent;
             border: 2px dashed var(--text);
@@ -146,6 +148,7 @@
             width: 90%;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--text);
@@ -260,6 +263,28 @@
             width: 100%;
         }
 
+        /* --- ANIMACIONES VISUALES --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Destellos de acierto/error */
+        @keyframes flashGreen {
+            0% { background-color: var(--bg); }
+            50% { background-color: rgba(76, 175, 80, 0.4); }
+            100% { background-color: var(--bg); }
+        }
+        @keyframes flashRed {
+            0% { background-color: var(--bg); }
+            50% { background-color: rgba(211, 47, 47, 0.4); }
+            100% { background-color: var(--bg); }
+        }
+
+        .flash-success { animation: flashGreen 0.4s ease-out; }
+        .flash-error { animation: flashRed 0.4s ease-out; }
+        
+        /* Animación del fuego de racha */
+        .streak-pop { animation: popIn 0.3s; }
+
         /* --- MEDIA QUERIES --- */
         @media (max-height: 600px) {
             h1 { margin-bottom: 10px; font-size: 1.5rem; }
@@ -268,22 +293,6 @@
             .operation-display { font-size: 2.5rem; }
             .modal-content { padding: 15px; }
         }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes flashGreen {
-            0% { background-color: var(--bg); }
-            50% { background-color: rgba(76, 175, 80, 0.4); } /* Verde transparente */
-            100% { background-color: var(--bg); }
-        }
-        @keyframes flashRed {
-            0% { background-color: var(--bg); }
-            50% { background-color: rgba(211, 47, 47, 0.4); } /* Rojo transparente */
-            100% { background-color: var(--bg); }
-        }
-
-        .flash-success { animation: flashGreen 0.4s ease-out; }
-        .flash-error { animation: flashRed 0.4s ease-out; }
 
     </style>
 </head>
@@ -300,17 +309,23 @@
             <button class="menu-btn mix" onclick="startGame('mix')">Mix Aleatorio</button>
             
             <button class="install-guide-btn" onclick="openInstallModal()">📲 Instalar App</button>
-           <footer style="margin-top: auto; padding-top: 30px; padding-bottom: 20px; text-align: center; color: var(--text); opacity: 0.9;">
+            
+            <footer style="margin-top: auto; padding-top: 30px; padding-bottom: 20px; text-align: center; color: var(--text); opacity: 0.9;">
                 <b>© 2026 Alberto Quesada Valle</b><br>
                 <span style="font-size: 0.85rem; opacity: 0.8;">v1.0 • Licencia MIT</span>
             </footer>
-        <div id="game-screen">
+        </div> <div id="game-screen">
             <div class="nav-bar">
                 <button class="back-btn" onclick="goHome()">🏠</button>
             </div>
             
             <div class="top-bar">
                 <div><span class="icon-check">✔</span> <span id="score-correct">0</span></div>
+                
+                <div id="streak-container" style="color: #e65100; font-size: 1.2rem; font-weight: bold; opacity: 0; transition: opacity 0.3s;">
+                    🔥 <span id="streak-count">0</span>
+                </div>
+                
                 <div><span class="icon-cross">✘</span> <span id="score-wrong">0</span></div>
             </div>
 
@@ -349,8 +364,8 @@
 
             <div id="instr-android" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
                <p>1. Pulsa el menú de opciones <b>(⋮ o ☰)</b>.</p>
-                <p style="font-size: 0.9rem; color: #666; margin-top: -10px; margin-bottom: 10px;">(Suele estar en una esquina arriba o abajo)</p>
-                <p>2. Pulsa <b>"Instalar aplicación"</b> o <b>"Añadir a pantalla de inicio"</b>.</p>
+               <p style="font-size: 0.9rem; color: #666; margin-top: -10px; margin-bottom: 10px;">(Suele estar en una esquina arriba o abajo)</p>
+               <p>2. Pulsa <b>"Instalar aplicación"</b> o <b>"Añadir a pantalla de inicio"</b>.</p>
             </div>
 
             <button class="modal-btn" onclick="closeInstallModal()" style="background:var(--text); margin-top:10px;">Cerrar</button>
@@ -367,6 +382,7 @@
                 .catch(err => console.log('SW error: ', err));
         });
         }
+
         // --- AUDIO ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(type) {
@@ -394,12 +410,15 @@
         }
 
         // --- LÓGICA JUEGO ---
-        let state = { mode: 'mix', correct: 0, wrong: 0, currentResult: 0, currentExp: "", currentOpText: "" };
+        let state = { mode: 'mix', correct: 0, wrong: 0, streak: 0, currentResult: 0, currentExp: "", currentOpText: "" };
 
         function startGame(mode) {
             state.mode = mode;
-            state.correct = 0; state.wrong = 0;
+            state.correct = 0; 
+            state.wrong = 0;
+            state.streak = 0; // Resetear racha
             updateStats();
+            updateStreakUI();
             document.getElementById('last-op-display').innerText = "";
             document.getElementById('menu-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'flex';
@@ -502,32 +521,26 @@
 
         function checkAnswer(val) {
             let historyText = `${state.currentOpText} = ${fmtS(state.currentResult)}`;
-            
-            // 1. Cogemos el cuerpo de la página
             const body = document.body;
 
-            // 2. Limpiamos luces anteriores y forzamos reinicio (Truco técnico)
+            // Resetear animaciones
             body.classList.remove('flash-success', 'flash-error');
-            void body.offsetWidth; 
+            void body.offsetWidth; // Forzar reflow para reiniciar animación
 
             if (val === state.currentResult) {
-                // ACIERTO
                 playTone('win');
-                body.classList.add('flash-success'); // <--- AQUÍ SE ENCIENDE LA LUZ VERDE
-                
+                body.classList.add('flash-success'); // Efecto visual verde
                 state.correct++;
-                state.streak++; 
+                state.streak++; // Aumentar racha
                 updateStats();
                 updateStreakUI();
                 document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
                 generateProblem();
             } else {
-                // FALLO
                 playTone('lose');
-                body.classList.add('flash-error'); // <--- AQUÍ SE ENCIENDE LA LUZ ROJA
-                
+                body.classList.add('flash-error'); // Efecto visual rojo
                 state.wrong++;
-                state.streak = 0; 
+                state.streak = 0; // Resetear racha
                 updateStats();
                 updateStreakUI();
                 showFeedback(val);
@@ -537,6 +550,24 @@
         function updateStats() {
             document.getElementById('score-correct').innerText = state.correct;
             document.getElementById('score-wrong').innerText = state.wrong;
+        }
+
+        // ESTA FUNCIÓN FALTABA:
+        function updateStreakUI() {
+            const streakContainer = document.getElementById('streak-container');
+            const streakCount = document.getElementById('streak-count');
+            
+            streakCount.innerText = state.streak;
+
+            // Mostrar solo si hay racha > 1
+            if (state.streak > 1) {
+                streakContainer.style.opacity = '1';
+                streakContainer.classList.remove('streak-pop');
+                void streakContainer.offsetWidth; 
+                streakContainer.classList.add('streak-pop');
+            } else {
+                streakContainer.style.opacity = '0';
+            }
         }
 
         function showFeedback(wrongVal) {
@@ -585,11 +616,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
