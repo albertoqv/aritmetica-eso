@@ -6,7 +6,7 @@
 ![PWA](https://img.shields.io/badge/PWA-Offline%20Ready-blueviolet?style=for-the-badge&logo=pwa)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-> **Aplicación educativa interactiva diseñada para practicar el cálculo mental con números enteros (positivos y negativos).** Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
+> **Aplicación educativa interactiva y gamificada diseñada para practicar el cálculo mental con números enteros.** Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
 
 ---
 
@@ -31,15 +31,20 @@ Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo
 
 ## ✨ Características Principales
 
-### ⚙️ El Algoritmo
-* **Generación Infinita:** Ejercicios ilimitados creados aleatoriamente en el momento.
-* **Optimización Didáctica:** Reducción drástica de la aparición del cero y del uno para maximizar la práctica útil.
+### 🎮 Gamificación y Motivación 
+* **🔥 Sistema de Rachas:** Contador de aciertos consecutivos en tiempo real con animaciones de fuego para motivar al alumno.
+* **🏆 Récord Personal:** El juego guarda automáticamente la mejor puntuación en la memoria del dispositivo. El alumno intenta superarse a sí mismo día tras día.
+* **⚡ Feedback Sensorial:** Destellos visuales (pantalla verde al acertar, roja al fallar) y efectos de sonido generados en tiempo real.
+
+### ⚙️ El Algoritmo Didáctico
+* **Generación Infinita:** Ejercicios ilimitados creados aleatoriamente.
+* **Optimización:** Reducción drástica de la aparición del cero y del uno para maximizar la práctica útil.
 * **Divisiones Exactas:** El sistema garantiza que las divisiones siempre den un número entero.
 * **Signo Explícito:** Resultados mostrados siempre con signo (ej: `+5` en lugar de `5`) para reforzar el concepto.
 
-### 🛡️ Sistema de Errores y Feedback
-* **Distractores Inteligentes:** Las opciones incorrectas no son al azar; se generan basándose en los fallos comunes de los estudiantes (fallos de signo, fallos de cálculo cercano).
-* **Explicación Inmediata:** Si el alumno falla, una ventana modal explica paso a paso por qué es incorrecto.
+### 🛡️ Sistema de Errores
+* **Distractores Inteligentes:** Las opciones incorrectas se generan basándose en los fallos comunes de los estudiantes (fallos de signo, fallos de cálculo cercano).
+* **Explicación Inmediata:** Ventana modal que explica paso a paso el error cometido.
 * **Historial:** Visualización de la operación anterior para facilitar la corrección en el cuaderno.
 
 ## 💻 Aspectos Técnicos
@@ -48,7 +53,8 @@ Este proyecto destaca por ser **ligero, rápido y funcionar sin internet**:
 
 | Característica | Descripción |
 | :--- | :--- |
-| **Estrategia "Network First** | El Service Worker intenta descargar siempre la última versión si hay conexión. Si no hay internet, recurre automáticamente a la caché (Offline) sin que el usuario note nada.|
+| **Estrategia "Network First"** | El Service Worker intenta descargar siempre la última versión si hay conexión. Si no hay internet, recurre automáticamente a la caché (Offline) sin que el usuario note nada. |
+| **Persistencia de Datos** | Uso de `localStorage` para guardar el récord personal del alumno sin necesidad de bases de datos ni cuentas de usuario. |
 | **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Cuenta con `manifest.json` para ejecutarse a pantalla completa como una app nativa. |
 | **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks ni librerías pesadas. Rendimiento máximo en dispositivos antiguos. |
 | **Web Audio API** | Efectos de sonido sintetizados matemáticamente en tiempo real (osciladores) para no depender de archivos mp3 externos. |
@@ -56,8 +62,9 @@ Este proyecto destaca por ser **ligero, rápido y funcionar sin internet**:
 ## 🚀 Cómo usar
 
 1.  **Acceso:** Entra en [aritmetica-eso.vercel.app](https://aritmetica-eso.vercel.app).
-2.  **Modo:** Selecciona el tipo de operación (Suma, Resta, Multiplicación, División o Mix Aleatorio).
-3.  **Instalación (Recomendado):**
+2.  **Récord:** Fíjate en tu "Mayor Racha" en el menú principal e intenta superarla.
+3.  **Modo:** Selecciona el tipo de operación (Suma, Resta, Multiplicación, División o Mix Aleatorio).
+4.  **Instalación (Recomendado):**
     * **Android:** Pulsa el botón "📲 Instalar App" del menú principal.
     * **iOS (iPhone/iPad):** Pulsa el botón "📲 Instalar App" y sigue las instrucciones (Compartir -> Añadir a inicio).
 
@@ -69,7 +76,7 @@ Si quieres ver el código o modificarlo:
     ```bash
     git clone [https://github.com/albertoqv/aritmetica-eso.git](https://github.com/albertoqv/aritmetica-eso.git)
     ```
-2.  Abre el archivo `index.html` en tu navegador.
+2.  Abre el archivo `index.html` en tu navegador. ¡No requiere instalación de servidores ni `npm install`!
 
 ## 📄 Licencia y Autoría
 
