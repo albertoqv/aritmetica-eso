@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aritmetica-v1';
+const CACHE_NAME = 'aritmetica-v2';
 const urlsToCache = [
   './',
   './index.html',
