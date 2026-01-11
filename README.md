@@ -14,6 +14,9 @@
 
 ## 🔗 [PROBAR DEMO EN VIVO](https://aritmetica-eso.vercel.app)
 
+![Vista Previa de la App](portada_enlace.png)
+*(Interfaz adaptada a Móvil y Escritorio)*
+
 </div>
 
 ---
