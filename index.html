@@ -10,7 +10,7 @@
     <meta property="og:title" content="Práctica de Enteros - ESO">
     <meta property="og:description" content="¡Domina los signos! Practica operaciones con enteros y aprende de tus errores al instante.">
     
-    <meta property="og:image" content="https://aritmetica-eso.vercel.app/portada_enlace.png"> 
+    <meta property="og:image" content="https://aritmetica-eso.vercel.app/portada.png"> 
     <meta property="og:url" content="https://aritmetica-eso.vercel.app">
     <meta property="og:type" content="website">
     
@@ -66,7 +66,7 @@
             padding: 20px 10px;
             position: relative;
             overflow-y: auto; 
-        } /* <--- AQUÍ FALTABA ESTA LLAVE DE CIERRE */
+        }
 
         /* --- PANTALLAS --- */
         #menu-screen, #game-screen {
@@ -85,7 +85,7 @@
         /* --- TIPOGRAFÍA --- */
         h1 { 
             color: var(--text); 
-            margin-bottom: 3vh; 
+            margin-bottom: 2vh; 
             margin-top: 2vh;
             font-size: clamp(2rem, 5vw, 3rem);
             text-align: center;
@@ -266,23 +266,19 @@
         /* --- ANIMACIONES VISUALES --- */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        /* Destellos de acierto/error */
         @keyframes flashGreen {
             0% { background-color: var(--bg); }
-            50% { background-color: rgba(76, 175, 80, 0.4); }
+            50% { background-color: rgba(76, 175, 80, 0.4); } 
             100% { background-color: var(--bg); }
         }
         @keyframes flashRed {
             0% { background-color: var(--bg); }
-            50% { background-color: rgba(211, 47, 47, 0.4); }
+            50% { background-color: rgba(211, 47, 47, 0.4); } 
             100% { background-color: var(--bg); }
         }
 
         .flash-success { animation: flashGreen 0.4s ease-out; }
         .flash-error { animation: flashRed 0.4s ease-out; }
-        
-        /* Animación del fuego de racha */
         .streak-pop { animation: popIn 0.3s; }
 
         /* --- MEDIA QUERIES --- */
@@ -302,6 +298,11 @@
         
         <div id="menu-screen">
             <h1>Aritmética ESO</h1>
+            
+            <div style="font-size: 1.1rem; color: #e65100; margin-bottom: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.6); padding: 8px 15px; border-radius: 20px;">
+                🏆 Mayor Racha: <span id="menu-record">0</span>
+            </div>
+
             <button class="menu-btn" onclick="startGame('sum')">Suma (+)</button>
             <button class="menu-btn" onclick="startGame('sub')">Resta (-)</button>
             <button class="menu-btn" onclick="startGame('mul')">Multiplicación (×)</button>
@@ -314,7 +315,9 @@
                 <b>© 2026 Alberto Quesada Valle</b><br>
                 <span style="font-size: 0.85rem; opacity: 0.8;">v1.0 • Licencia MIT</span>
             </footer>
-        </div> <div id="game-screen">
+        </div>
+
+        <div id="game-screen">
             <div class="nav-bar">
                 <button class="back-btn" onclick="goHome()">🏠</button>
             </div>
@@ -373,14 +376,12 @@
     </div>
 
     <script>
-
-        // --- REGISTRO PWA (Service Worker) ---
+        // --- REGISTRO PWA ---
         if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('SW registrado: ', reg.scope))
-                .catch(err => console.log('SW error: ', err));
-        });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .catch(err => console.log('SW error: ', err));
+            });
         }
 
         // --- AUDIO ---
@@ -409,14 +410,45 @@
             }
         }
 
-        // --- LÓGICA JUEGO ---
-        let state = { mode: 'mix', correct: 0, wrong: 0, streak: 0, currentResult: 0, currentExp: "", currentOpText: "" };
+        // --- LÓGICA DE DATOS ---
+        const modeNames = { sum: 'Suma', sub: 'Resta', mul: 'Multi', div: 'División', mix: 'Mix' };
+
+        // Recuperar datos al inicio
+        let savedStreak = localStorage.getItem('aritmetica-streak-val') || 0;
+        let savedMode = localStorage.getItem('aritmetica-streak-mode') || '';
+
+        let state = { 
+            mode: 'mix', 
+            correct: 0, 
+            wrong: 0, 
+            streak: 0, 
+            bestStreak: parseInt(savedStreak), 
+            bestMode: savedMode,
+            currentResult: 0, 
+            currentExp: "", 
+            currentOpText: "" 
+        };
+
+        // Función para pintar el texto del récord
+        function updateMenuRecordUI() {
+            const el = document.getElementById('menu-record');
+            if (state.bestStreak > 0) {
+                // Si hay récord, muestra: "15 (Mix)"
+                let mName = modeNames[state.bestMode] || state.bestMode;
+                el.innerText = `${state.bestStreak} (${mName})`;
+            } else {
+                el.innerText = "0";
+            }
+        }
+
+        // Ejecutar al cargar
+        document.addEventListener('DOMContentLoaded', updateMenuRecordUI);
 
         function startGame(mode) {
             state.mode = mode;
             state.correct = 0; 
             state.wrong = 0;
-            state.streak = 0; // Resetear racha
+            state.streak = 0;
             updateStats();
             updateStreakUI();
             document.getElementById('last-op-display').innerText = "";
@@ -426,6 +458,7 @@
         }
 
         function goHome() {
+            updateMenuRecordUI();
             document.getElementById('game-screen').style.display = 'none';
             document.getElementById('menu-screen').style.display = 'flex';
         }
@@ -462,17 +495,14 @@
                 exp = ((a >= 0 && b >= 0) || (a < 0 && b < 0)) 
                     ? "Signos IGUALES:<br>Se SUMAN y se deja el signo." 
                     : "Signos DISTINTOS:<br>Se RESTAN.<br>Gana el signo del mayor.";
-
             } else if (mode === 'sub') {
                 symbol = "-";
                 res = a - b;
                 exp = "Resta de enteros:<br>Sumamos el OPUESTO.";
-
             } else if (mode === 'mul') {
                 symbol = "×";
                 res = a * b;
                 exp = `Regla de Signos:<br>${(a*b) > 0 ? "IGUALES (+)" : "DISTINTOS (-)"}`;
-
             } else if (mode === 'div') {
                 symbol = ":";
                 let divisor = b; 
@@ -485,7 +515,6 @@
             state.currentResult = res;
             state.currentOpText = `${fmt(a)} ${symbol} ${fmt(b)}`;
             state.currentExp = exp;
-
             document.getElementById('problem-text').innerHTML = state.currentOpText;
             generateOptions(res, a, b);
         }
@@ -495,21 +524,16 @@
             container.innerHTML = '';
             let options = new Set([correct]);
             if (correct !== 0) options.add(-correct);
-
             let magSum = Math.abs(a) + Math.abs(b);
             let magDiff = Math.abs(Math.abs(a) - Math.abs(b));
             let distractorMag = (Math.abs(correct) === magSum) ? magDiff : magSum;
-            
             if (state.mode === 'mul' || state.mode === 'div') {
                 distractorMag = Math.abs(a) + Math.abs(b);
                 if (distractorMag === Math.abs(correct)) distractorMag += 1;
             }
-
             options.add(distractorMag);
             options.add(-distractorMag);
-
             while (options.size < 4) { options.add(rnd(-18, 18)); }
-
             Array.from(options).sort(() => Math.random() - 0.5).slice(0, 4).forEach(val => {
                 let btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -522,25 +546,33 @@
         function checkAnswer(val) {
             let historyText = `${state.currentOpText} = ${fmtS(state.currentResult)}`;
             const body = document.body;
-
-            // Resetear animaciones
             body.classList.remove('flash-success', 'flash-error');
-            void body.offsetWidth; // Forzar reflow para reiniciar animación
+            void body.offsetWidth; 
 
             if (val === state.currentResult) {
                 playTone('win');
-                body.classList.add('flash-success'); // Efecto visual verde
+                body.classList.add('flash-success');
                 state.correct++;
-                state.streak++; // Aumentar racha
+                state.streak++;
+                
+                // --- LÓGICA DE GUARDADO DE RÉCORD ---
+                if (state.streak > state.bestStreak) {
+                    state.bestStreak = state.streak;
+                    state.bestMode = state.mode; // Guardamos el modo actual (sum, sub, mix...)
+                    
+                    localStorage.setItem('aritmetica-streak-val', state.bestStreak);
+                    localStorage.setItem('aritmetica-streak-mode', state.bestMode);
+                }
+                
                 updateStats();
                 updateStreakUI();
                 document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
                 generateProblem();
             } else {
                 playTone('lose');
-                body.classList.add('flash-error'); // Efecto visual rojo
+                body.classList.add('flash-error');
                 state.wrong++;
-                state.streak = 0; // Resetear racha
+                state.streak = 0;
                 updateStats();
                 updateStreakUI();
                 showFeedback(val);
@@ -552,14 +584,10 @@
             document.getElementById('score-wrong').innerText = state.wrong;
         }
 
-        // ESTA FUNCIÓN FALTABA:
         function updateStreakUI() {
             const streakContainer = document.getElementById('streak-container');
             const streakCount = document.getElementById('streak-count');
-            
             streakCount.innerText = state.streak;
-
-            // Mostrar solo si hay racha > 1
             if (state.streak > 1) {
                 streakContainer.style.opacity = '1';
                 streakContainer.classList.remove('streak-pop');
@@ -583,26 +611,20 @@
             generateProblem();
         }
 
-        // --- LÓGICA MODAL INSTALACIÓN ---
         function openInstallModal() {
             document.getElementById('install-modal').style.display = 'flex';
             const isAndroid = /Android/i.test(navigator.userAgent);
             showInstruct(isAndroid ? 'android' : 'ios');
         }
-
         function closeInstallModal() {
             document.getElementById('install-modal').style.display = 'none';
         }
-
         function showInstruct(platform) {
             const btns = document.querySelectorAll('#install-modal .modal-btn');
-            // Reset botones (indices 0 y 1 son iOS y Android)
             btns[0].style.background = '#eee'; btns[0].style.color='#333';
             btns[1].style.background = '#eee'; btns[1].style.color='#333';
-            
             document.getElementById('instr-ios').style.display = 'none';
             document.getElementById('instr-android').style.display = 'none';
-
             if(platform === 'ios') {
                 document.getElementById('instr-ios').style.display = 'block';
                 btns[0].style.background = 'var(--primary)'; 
