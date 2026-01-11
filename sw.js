@@ -4,6 +4,7 @@ const urlsToCache = [
   './index.html',
   './manifest.json',
   './portada_enlace.png'
+  './icon.png'
 ];
 
 // Instalación: Guardamos los archivos
