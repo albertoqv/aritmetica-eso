@@ -48,7 +48,7 @@ Este proyecto destaca por ser **ligero, rápido y funcionar sin internet**:
 
 | Característica | Descripción |
 | :--- | :--- |
-| **Offline First (Service Worker)** | Gracias a la implementación de un Service Worker (`sw.js`), la aplicación **funciona sin conexión a internet** una vez cargada por primera vez. |
+| **Estrategia "Network First** | El Service Worker intenta descargar siempre la última versión si hay conexión. Si no hay internet, recurre automáticamente a la caché (Offline) sin que el usuario note nada.|
 | **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Cuenta con `manifest.json` para ejecutarse a pantalla completa como una app nativa. |
 | **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks ni librerías pesadas. Rendimiento máximo en dispositivos antiguos. |
 | **Web Audio API** | Efectos de sonido sintetizados matemáticamente en tiempo real (osciladores) para no depender de archivos mp3 externos. |
