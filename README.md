@@ -4,7 +4,7 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![PWA](https://img.shields.io/badge/PWA-Offline%20Ready-blueviolet?style=for-the-badge&logo=pwa)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
 
 > **Aplicación educativa interactiva y gamificada diseñada para practicar el cálculo mental con números enteros.** Desarrollada como herramienta de apoyo para el alumnado de 1º de la ESO.
 
@@ -82,8 +82,8 @@ Si quieres ver el código o modificarlo:
 
 **Autor:** Alberto Quesada Valle.
 
-Este proyecto fue desarrollado como recurso educativo para el refuerzo de matemáticas en 1º ESO.
-Distribuido bajo la **Licencia MIT**. Eres libre de usarlo, modificarlo y compartirlo en tus clases.
-
+Este proyecto es un Recurso Educativo Abierto (REA).
+Distribuido bajo licencia **Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
+Eres libre de usarlo y adaptarlo en tus clases, siempre que no sea con fines comerciales y compartas las mejoras.
 ---
 *Hecho con ❤️ y Matemáticas.*
