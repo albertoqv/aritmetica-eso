@@ -4,23 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <meta name="description" content="Juego interactivo gratuito para practicar operaciones con números enteros (Suma, Resta, Multiplicación, División). Nivel 1º ESO.">
-    <meta name="keywords" content="matemáticas, enteros, 1 ESO, cálculo mental, juego educativo, aritmética, números negativos, recursos didácticos">
-    <meta name="author" content="Alberto Quesada Valle">
-    <meta property="og:title" content="Práctica de Enteros - ESO">
-    <meta property="og:description" content="¡Domina los signos! Practica operaciones con enteros y aprende de tus errores al instante.">
-    
+    <meta name="description" content="Juego interactivo gratuito para practicar operaciones con números enteros (Suma, Resta, Multiplicación, División). Nivel 1º ESO."> 
+    <meta name="keywords" content="matemáticas, enteros, 1 ESO, cálculo mental, juego educativo, aritmética, números negativos, recursos didácticos"> 
+    <meta name="author" content="Alberto Quesada Valle"> <meta property="og:title" content="Práctica de Enteros - ESO"> 
+    <meta property="og:description" content="¡Domina los signos! Practica operaciones con enteros y aprende de tus errores al instante."> 
     <meta property="og:image" content="https://aritmetica-eso.vercel.app/portada_enlace.png"> 
-    <meta property="og:url" content="https://aritmetica-eso.vercel.app">
-    <meta property="og:type" content="website">
-    
-    <meta name="theme-color" content="#ffc107">
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="apple-touch-icon" href="icon.png">
-    
-    <link rel="manifest" href="manifest.json">
-
+    <meta property="og:url" content="https://aritmetica-eso.vercel.app"> 
+    <meta property="og:type" content="website"> 
+    <meta name="theme-color" content="#ffc107"> <link rel="icon" type="image/png" href="icon.png"> <link rel="apple-touch-icon" href="icon.png"> <link rel="manifest" href="manifest.json">
     <title>Aritmética ESO</title>
+    
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
@@ -33,13 +26,9 @@
             --text: #5d4037;
             --red: #d32f2f;
             --green: #388e3c;
-            --shadow: rgba(0,0,0,0.15);
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -57,7 +46,6 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
         .app-container {
             width: 100%;
             max-width: 500px;
@@ -71,7 +59,6 @@
             overflow-y: auto; 
         }
 
-        /* --- PANTALLAS --- */
         #menu-screen, #game-screen {
             width: 100%;
             height: 100%;
@@ -80,16 +67,14 @@
             align-items: center;
             justify-content: center; 
             animation: fadeIn 0.4s ease-out;
-            min-height: 500px; 
+            min-height: 550px; 
         }
 
         #game-screen { display: none; }
 
-        /* --- TIPOGRAFÍA --- */
         h1 { 
             color: var(--text); 
-            margin-bottom: 2vh; 
-            margin-top: 2vh;
+            margin: 1vh 0;
             font-size: clamp(2rem, 5vw, 3rem);
             text-align: center;
         }
@@ -99,10 +84,10 @@
             background: white;
             border: 3px solid var(--primary);
             color: var(--text);
-            width: 80%;
-            padding: 15px;
-            margin: 8px 0;
-            font-size: clamp(1rem, 4vw, 1.4rem);
+            width: 85%;
+            padding: 12px;
+            margin: 5px 0;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             border-radius: 15px;
             font-weight: bold;
             cursor: pointer;
@@ -111,188 +96,140 @@
         }
         .menu-btn:active { transform: translateY(4px); box-shadow: none; }
         .menu-btn.mix { background: var(--primary); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 0 var(--primary-dark); }
+        .menu-btn.combo { border-color: #e65100; color: #e65100; }
 
-        /* Botón de guía de instalación */
         .install-guide-btn {
             background: transparent;
             border: 2px dashed var(--text);
             color: var(--text);
             width: 60%;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 1rem;
+            padding: 8px;
+            margin-top: 15px;
+            font-size: 0.8rem;
             border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
             opacity: 0.7;
         }
-        .install-guide-btn:hover { opacity: 1; background: rgba(0,0,0,0.05); }
+
+        /* --- SWITCH TOGGLE --- */
+        .switch-container {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--green); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
         /* --- JUEGO --- */
-        .nav-bar {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding-top: 10px;
-            flex-shrink: 0;
-        }
-        
+        .nav-bar { width: 100%; display: flex; justify-content: center; padding-top: 10px; flex-shrink: 0; }
         .back-btn {
-            background: rgba(0,0,0,0.05);
-            border: none;
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
+            background: rgba(0,0,0,0.05); border: none; border-radius: 50px;
+            padding: 8px 20px; font-size: 1.5rem; cursor: pointer; color: var(--text);
         }
 
         .top-bar {
-            width: 90%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text);
-            margin: 10px 0;
-            flex-shrink: 0;
+            width: 90%; display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.5rem; font-weight: bold; color: var(--text); margin: 10px 0; flex-shrink: 0;
         }
         .icon-check { color: var(--green); }
         .icon-cross { color: var(--red); }
 
         .operation-display {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(3rem, 12vw, 5rem); 
-            font-weight: bold;
-            color: #e65100;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
-            text-align: center;
-            width: 100%;
+            flex-grow: 1; display: flex; align-items: center; justify-content: center;
+            font-size: clamp(2rem, 8vw, 4.5rem); font-weight: bold; color: #e65100;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5); text-align: center;
+            width: 100%; padding: 0 10px; word-break: break-word;
         }
 
         .grid-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            width: 95%;
-            margin-bottom: 10px;
-            flex-shrink: 0;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            width: 95%; margin-bottom: 10px; flex-shrink: 0;
         }
-
         .option-btn {
-            background-color: var(--primary);
-            border: none;
-            border-radius: 12px;
-            height: clamp(60px, 15vh, 100px); 
-            font-size: clamp(1.8rem, 6vw, 2.5rem);
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
-            box-shadow: 0 5px 0 var(--primary-dark);
-            cursor: pointer;
-            font-family: monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: var(--primary); border: none; border-radius: 12px;
+            height: clamp(60px, 15vh, 100px); font-size: clamp(1.8rem, 6vw, 2.5rem);
+            font-weight: bold; color: white; text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 5px 0 var(--primary-dark); cursor: pointer;
+            font-family: monospace; display: flex; align-items: center; justify-content: center;
         }
         .option-btn:active { transform: translateY(5px); box-shadow: none; }
 
         .last-operation-bar {
-            width: 100%;
-            background-color: rgba(0,0,0,0.05);
-            color: #777;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 1rem;
-            font-weight: bold;
-            min-height: 35px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; background-color: rgba(0,0,0,0.05); color: #777;
+            text-align: center; padding: 8px 0; font-size: 0.9rem; font-weight: bold;
+            min-height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- MODAL GENERAL (Feedback) --- */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            backdrop-filter: blur(2px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 1000; padding: 20px; backdrop-filter: blur(2px);
         }
         .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            background: white; padding: 25px; border-radius: 20px; text-align: center;
+            width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-title { color: var(--red); font-size: 2rem; margin: 0 0 15px 0; }
         .modal-op { font-size: 1.5rem; font-weight: bold; margin: 10px 0; color: #333; }
-        
         .modal-exp { 
-            font-size: 1.2rem; 
-            line-height: 1.4; 
-            color: #333; 
-            margin-bottom: 25px; 
-            background: #fff3e0;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 5px solid var(--primary);
-            text-align: left;
+            font-size: 1.1rem; line-height: 1.4; color: #333; margin-bottom: 25px;
+            background: #fff3e0; padding: 15px; border-radius: 10px;
+            border-left: 5px solid var(--primary); text-align: left;
         }
-
         .modal-btn {
-            background: var(--primary);
-            border: none;
-            padding: 15px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            width: 100%;
+            background: var(--primary); border: none; padding: 15px;
+            font-size: 1.2rem; font-weight: bold; border-radius: 10px;
+            color: white; cursor: pointer; width: 100%;
         }
 
-        /* --- ANIMACIONES VISUALES --- */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes flashGreen {
-            0% { background-color: var(--bg); }
-            50% { background-color: rgba(76, 175, 80, 0.4); } 
-            100% { background-color: var(--bg); }
-        }
-        @keyframes flashRed {
-            0% { background-color: var(--bg); }
-            50% { background-color: rgba(211, 47, 47, 0.4); } 
-            100% { background-color: var(--bg); }
-        }
-
+        @keyframes flashGreen { 0% { background-color: var(--bg); } 50% { background-color: rgba(76, 175, 80, 0.4); } 100% { background-color: var(--bg); } }
+        @keyframes flashRed { 0% { background-color: var(--bg); } 50% { background-color: rgba(211, 47, 47, 0.4); } 100% { background-color: var(--bg); } }
         .flash-success { animation: flashGreen 0.4s ease-out; }
         .flash-error { animation: flashRed 0.4s ease-out; }
         .streak-pop { animation: popIn 0.3s; }
 
-        /* --- MEDIA QUERIES --- */
         @media (max-height: 600px) {
-            h1 { margin-bottom: 10px; font-size: 1.5rem; }
-            .menu-btn { padding: 10px; margin: 4px 0; }
-            .option-btn { height: 60px; font-size: 1.5rem; }
-            .operation-display { font-size: 2.5rem; }
+            h1 { margin-bottom: 5px; font-size: 1.3rem; }
+            .menu-btn { padding: 8px; margin: 4px 0; font-size: 1rem; }
+            .option-btn { height: 50px; font-size: 1.4rem; }
+            .operation-display { font-size: 2rem; }
             .modal-content { padding: 15px; }
         }
-
     </style>
 </head>
 <body>
@@ -302,21 +239,33 @@
         <div id="menu-screen">
             <h1>Aritmética ESO</h1>
             
-            <div style="font-size: 1.1rem; color: #e65100; margin-bottom: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.6); padding: 8px 15px; border-radius: 20px;">
-                🏆 Mayor Racha: <span id="menu-record">0</span>
+            <div style="font-size: 1.1rem; color: #e65100; margin-bottom: 10px; font-weight: bold; background: rgba(255, 255, 255, 0.6); padding: 8px 15px; border-radius: 20px;">
+                🏆 Récord: <span id="menu-record">0</span>
             </div>
 
             <button class="menu-btn" onclick="startGame('sum')">Suma (+)</button>
             <button class="menu-btn" onclick="startGame('sub')">Resta (-)</button>
             <button class="menu-btn" onclick="startGame('mul')">Multiplicación (×)</button>
             <button class="menu-btn" onclick="startGame('div')">División (:)</button>
+            <button class="menu-btn combo" onclick="startGame('combo')">⚡ Combinadas ⚡</button>
             <button class="menu-btn mix" onclick="startGame('mix')">Mix Aleatorio</button>
             
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="clean-toggle" onchange="toggleCleanMode()">
+                    <span class="slider round"></span>
+                </label>
+                <div style="text-align:left; line-height:1.1;">
+                    <span style="color:var(--text); font-weight:bold; font-size:0.9rem;">Sin Paréntesis</span><br>
+                    <span style="font-size:0.75rem; color:#777;">Oculta los obvios: (+5) → 5</span>
+                </div>
+            </div>
+
             <button class="install-guide-btn" onclick="openInstallModal()">📲 Instalar App</button>
             
-            <footer style="margin-top: auto; padding-top: 25px; padding-bottom: 10px; text-align: center; color: var(--text); opacity: 0.6; font-size: 0.75rem;">
+            <footer style="margin-top: auto; padding-top: 10px; padding-bottom: 5px; text-align: center; color: var(--text); opacity: 0.6; font-size: 0.75rem;">
                 © 2026 Alberto Quesada Valle<br>
-                v1.0 • Licencia CC BY-NC-SA 4.0
+                v1.5 • Licencia CC BY-NC-SA 4.0
             </footer>
         </div>
 
@@ -327,18 +276,14 @@
             
             <div class="top-bar">
                 <div><span class="icon-check">✔</span> <span id="score-correct">0</span></div>
-                
                 <div id="streak-container" style="color: #e65100; font-size: 1.2rem; font-weight: bold; opacity: 0; transition: opacity 0.3s;">
                     🔥 <span id="streak-count">0</span>
                 </div>
-                
                 <div><span class="icon-cross">✘</span> <span id="score-wrong">0</span></div>
             </div>
 
             <div class="operation-display" id="problem-text"></div>
-
             <div class="grid-options" id="options-container"></div>
-            
             <div class="last-operation-bar" id="last-op-display"></div>
         </div>
     </div>
@@ -355,39 +300,30 @@
     <div class="modal-overlay" id="install-modal" style="z-index: 2000;">
         <div class="modal-content" style="max-width: 350px;">
             <h2 class="modal-title" style="color:var(--text); margin-bottom:10px;">Instalar App</h2>
-            <p style="margin-bottom:20px; color:#666;">Añade la App a tu pantalla de inicio para jugar a pantalla completa:</p>
-            
             <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
                 <button onclick="showInstruct('ios')" class="modal-btn" style="padding:10px; font-size:1rem; background:#eee; color:#333;">🍏 iPhone</button>
                 <button onclick="showInstruct('android')" class="modal-btn" style="padding:10px; font-size:1rem; background:#eee; color:#333;">🤖 Android</button>
             </div>
-
             <div id="instr-ios" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
-                <p>1. Pulsa <b>Compartir</b> <span style="font-size:1.2rem">⎋</span> (abajo centro).</p>
-                <p>2. Baja y pulsa <b>"Añadir a inicio"</b> <span style="font-size:1.2rem">➕</span>.</p>
-                <p>3. Pulsa <b>Añadir</b>.</p>
+                <p>1. Pulsa <b>Compartir</b> <span style="font-size:1.2rem">⎋</span>.</p>
+                <p>2. Pulsa <b>"Añadir a inicio"</b> <span style="font-size:1.2rem">➕</span>.</p>
             </div>
-
             <div id="instr-android" style="display:none; text-align:left; background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
-               <p>1. Pulsa el menú de opciones <b>(⋮ o ☰)</b>.</p>
-               <p style="font-size: 0.9rem; color: #666; margin-top: -10px; margin-bottom: 10px;">(Suele estar en una esquina arriba o abajo)</p>
-               <p>2. Pulsa <b>"Instalar aplicación"</b> o <b>"Añadir a pantalla de inicio"</b>.</p>
+               <p>1. Pulsa menú <b>(⋮ o ☰)</b>.</p>
+               <p>2. Pulsa <b>"Instalar"</b>.</p>
             </div>
-
             <button class="modal-btn" onclick="closeInstallModal()" style="background:var(--text); margin-top:10px;">Cerrar</button>
         </div>
     </div>
 
     <script>
-        // --- REGISTRO PWA ---
+        // --- SW ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .catch(err => console.log('SW error: ', err));
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error: ', err));
             });
         }
 
-        // --- AUDIO ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -395,65 +331,47 @@
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-            
             if (type === 'win') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             } else {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime);
                 osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             }
         }
 
-        // --- LÓGICA DE DATOS ---
-        const modeNames = { sum: 'Suma', sub: 'Resta', mul: 'Multiplicación', div: 'División', mix: 'Mix' };
-
-        // Recuperar datos al inicio
+        const modeNames = { sum:'Suma', sub:'Resta', mul:'Multip.', div:'División', combo:'Combinadas', mix:'Mix' };
         let savedStreak = localStorage.getItem('aritmetica-streak-val') || 0;
         let savedMode = localStorage.getItem('aritmetica-streak-mode') || '';
-
+        
+        // Estado inicial
         let state = { 
-            mode: 'mix', 
-            correct: 0, 
-            wrong: 0, 
-            streak: 0, 
-            bestStreak: parseInt(savedStreak), 
-            bestMode: savedMode,
-            currentResult: 0, 
-            currentExp: "", 
-            currentOpText: "" 
+            mode: 'mix', correct: 0, wrong: 0, streak: 0, 
+            bestStreak: parseInt(savedStreak), bestMode: savedMode, 
+            currentResult: 0, currentExp: "", currentOpText: "",
+            cleanMode: false // Por defecto con paréntesis
         };
 
-        // Función para pintar el texto del récord
+        function toggleCleanMode() {
+            state.cleanMode = document.getElementById('clean-toggle').checked;
+        }
+
         function updateMenuRecordUI() {
             const el = document.getElementById('menu-record');
             if (state.bestStreak > 0) {
-                // Si hay récord, muestra: "15 (Mix)"
                 let mName = modeNames[state.bestMode] || state.bestMode;
                 el.innerText = `${state.bestStreak} (${mName})`;
-            } else {
-                el.innerText = "0";
-            }
+            } else { el.innerText = "0"; }
         }
-
-        // Ejecutar al cargar
         document.addEventListener('DOMContentLoaded', updateMenuRecordUI);
 
         function startGame(mode) {
-            state.mode = mode;
-            state.correct = 0; 
-            state.wrong = 0;
-            state.streak = 0;
-            updateStats();
-            updateStreakUI();
+            state.mode = mode; state.correct = 0; state.wrong = 0; state.streak = 0;
+            updateStats(); updateStreakUI();
             document.getElementById('last-op-display').innerText = "";
             document.getElementById('menu-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'flex';
@@ -467,76 +385,186 @@
         }
 
         function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function getNumber() { let n = rnd(1, 9); return Math.random() < 0.5 ? n : -n; }
         
-        function getNumber() {
-            let n = rnd(1, 9);
-            return Math.random() < 0.5 ? n : -n;
+        // FORMATO NÚMEROS
+        // isFirst: Si es el primer número de la operación, no necesita paréntesis aunque sea negativo en modo Clean.
+        function fmt(n, isFirst = false) { 
+            if (state.cleanMode) {
+                if (n > 0) return `${n}`; // (+5) -> 5
+                if (n < 0 && isFirst) return `${n}`; // (-5) al inicio -> -5
+                if (n === 0) return "0";
+                return `(${n})`; // (-5) en medio -> (-5)
+            } else {
+                // Modo Clásico: Todo con paréntesis para reforzar
+                let sign = n >= 0 ? "+" : "";
+                return `(${sign}${n})`;
+            }
         }
 
-        function fmt(n) {
-            let sign = n >= 0 ? "+" : "";
-            return `(${sign}${n})`;
-        }
-
-        function fmtS(n) {
-            if (n > 0) return "+" + n;
-            if (n === 0) return "0";
-            return "" + n;
-        }
+        function fmtS(n) { if (n > 0) return "+" + n; if (n === 0) return "0"; return "" + n; }
 
         function generateProblem() {
             let mode = state.mode;
-            if (mode === 'mix') mode = ['sum', 'sub', 'mul', 'div'][rnd(0, 3)];
+            if (mode === 'mix') {
+                const types = ['sum', 'sub', 'mul', 'div', 'combo'];
+                mode = types[rnd(0, 4)];
+            }
 
+            let res, exp, opText;
             let a = getNumber();
             let b = getNumber();
-            let symbol, res, exp;
 
-            if (mode === 'sum') {
-                symbol = "+";
+            if (mode === 'combo') {
+                // TIPOS DE OPERACIONES COMBINADAS
+                let tipo = rnd(1, 5); 
+                let c = getNumber();
+
+                // NOTA: En combinadas, usamos rangos reducidos para multiplicaciones y divisiones
+                // para facilitar el cálculo mental y centrarse en signos/jerarquía.
+                
+                if (tipo === 1) { // a · b + c
+                    // Simplificación factores
+                    a = rnd(2, 6) * (Math.random()<0.5?1:-1);
+                    b = rnd(2, 6) * (Math.random()<0.5?1:-1);
+                    c = rnd(1, 15) * (Math.random()<0.5?1:-1);
+
+                    let calcMul = a * b;
+                    res = calcMul + c;
+                    
+                    let opC = (c >= 0) ? `+ ${fmt(c)}` : `- ${fmt(Math.abs(c))}`;
+                    if (!state.cleanMode) opC = `+ ${fmt(c)}`; 
+
+                    opText = `${fmt(a, true)} · ${fmt(b)} ${opC}`;
+                    exp = `<b>1º Jerarquía:</b> ${fmt(a, true)}·${fmt(b)} = <b>${calcMul}</b><br>
+                           <b>2º Operamos:</b> ${calcMul} ${opC} = <b>${res}</b>`;
+                
+                } else if (tipo === 2) { // c + a · b
+                    a = rnd(2, 6) * (Math.random()<0.5?1:-1);
+                    b = rnd(2, 6) * (Math.random()<0.5?1:-1);
+                    c = rnd(5, 12) * (Math.random()<0.5?1:-1);
+                    
+                    let calcMul = a * b;
+                    let isSum = Math.random() < 0.5;
+                    let sign = isSum ? "+" : "-";
+                    
+                    if (isSum) res = c + calcMul; else res = c - calcMul;
+
+                    opText = `${fmt(c, true)} ${sign} ${fmt(a)} · ${fmt(b)}`;
+                    exp = `<b>1º Jerarquía:</b> ${fmt(a)}·${fmt(b)} = <b>${calcMul}</b><br>
+                           <b>2º Operamos:</b> ${c} ${sign} (${calcMul}) = <b>${res}</b>`;
+
+                } else if (tipo === 3) { // Cadena Sumas: a + b - c
+                    res = a + b - c;
+                    let opB = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+                    let opC = c >= 0 ? `- ${c}` : `+ ${Math.abs(c)}`; 
+                    
+                    if (!state.cleanMode) {
+                        opText = `${fmt(a)} + ${fmt(b)} - ${fmt(c)}`;
+                    } else {
+                        opText = `${a} ${opB} ${opC}`;
+                    }
+                    
+                    let p1 = a + b;
+                    exp = `<b>Izq. a Derecha:</b><br>1º) ${a} ${opB} = <b>${p1}</b><br>2º) ${p1} ${opC} = <b>${res}</b>`;
+
+                } else if (tipo === 4) { // Div + Suma
+                    // Divisores muy sencillos (2,3,4,5)
+                    let divsr = rnd(2, 5) * (Math.random()<0.5?1:-1);
+                    let coc = rnd(2, 9) * (Math.random()<0.5?1:-1);
+                    let divd = divsr * coc;
+                    let sum = rnd(1, 10) * (Math.random()<0.5?1:-1);
+                    
+                    let opSum = sum >= 0 ? `+ ${sum}` : `- ${Math.abs(sum)}`;
+                    if(!state.cleanMode) opSum = `+ ${fmt(sum)}`;
+
+                    res = coc + sum;
+                    opText = `${fmt(divd, true)} : ${fmt(divsr)} ${opSum}`;
+                    exp = `<b>1º División:</b> ${divd}:${divsr} = <b>${coc}</b><br>
+                           <b>2º Suma:</b> ${coc} ${opSum} = <b>${res}</b>`;
+
+                } else { // 5: Larga -> a + b · c - d
+                     let d = getNumber();
+                     // Factores sencillos
+                     b = rnd(2,5)*(Math.random()<0.5?1:-1);
+                     c = rnd(2,5)*(Math.random()<0.5?1:-1);
+                     
+                     let prod = b * c;
+                     res = a + prod - d;
+                     
+                     let txtProd = `+ ${fmt(b)} · ${fmt(c)}`; 
+                     let txtD = `- ${fmt(d)}`;
+                     
+                     if (state.cleanMode) {
+                         txtProd = `+ ${fmt(b)} · ${fmt(c)}`;
+                     }
+
+                     opText = `${fmt(a, true)} ${txtProd} ${txtD}`;
+                     let p1 = a + prod;
+                     
+                     // Ajuste visual explicación
+                     let opD = (d >= 0) ? `- ${d}` : `+ ${Math.abs(d)}`;
+
+                     exp = `<b>1º Producto:</b> ${fmt(b)}·${fmt(c)} = <b>${prod}</b><br>
+                            <b>2º Queda:</b> ${a} + (${prod}) - (${d})<br>
+                            <b>3º Operamos:</b> ${p1} ${opD} = <b>${res}</b>`;
+                }
+
+            } else if (mode === 'sum') {
                 res = a + b;
-                exp = ((a >= 0 && b >= 0) || (a < 0 && b < 0)) 
-                    ? "Signos IGUALES:<br>Se SUMAN y se deja el signo." 
-                    : "Signos DISTINTOS:<br>Se RESTAN.<br>Gana el signo del mayor.";
+                opText = `${fmt(a, true)} + ${fmt(b)}`;
+                exp = "Regla signos Suma/Resta";
             } else if (mode === 'sub') {
-                symbol = "-";
                 res = a - b;
-                exp = "Resta de enteros:<br>Sumamos el OPUESTO.";
+                opText = `${fmt(a, true)} - ${fmt(b)}`;
+                exp = "Resta: Sumar el opuesto.";
             } else if (mode === 'mul') {
-                symbol = "×";
                 res = a * b;
-                exp = `Regla de Signos:<br>${(a*b) > 0 ? "IGUALES (+)" : "DISTINTOS (-)"}`;
+                opText = `${fmt(a, true)} × ${fmt(b)}`;
+                exp = `Signos: ${(a*b)>0?"Iguales (+)":"Distintos (-)"}`;
             } else if (mode === 'div') {
-                symbol = ":";
-                let divisor = b; 
-                let cociente = getNumber();
-                a = cociente * divisor; 
-                res = cociente;
-                exp = `Regla de Signos:<br>${(a*b) > 0 ? "IGUALES (+)" : "DISTINTOS (-)"}`;
+                // Mezcla divisiones grandes y pequeñas
+                let useBig = Math.random() > 0.5; // 50% probabilidad
+                let valDivisor = useBig ? rnd(2, 12) : rnd(2, 9);
+                let divisor = Math.random() < 0.5 ? valDivisor : -valDivisor;
+                
+                let valCociente = useBig ? rnd(2, 12) : rnd(2, 9);
+                let cociente = Math.random() < 0.5 ? valCociente : -valCociente;
+                
+                a = cociente * divisor; b = divisor; res = cociente;
+                opText = `${fmt(a, true)} : ${fmt(b)}`;
+                exp = `Signos: ${res>0?"Iguales (+)":"Distintos (-)"}`;
             }
 
             state.currentResult = res;
-            state.currentOpText = `${fmt(a)} ${symbol} ${fmt(b)}`;
+            state.currentOpText = opText;
             state.currentExp = exp;
-            document.getElementById('problem-text').innerHTML = state.currentOpText;
-            generateOptions(res, a, b);
+            
+            const textEl = document.getElementById('problem-text');
+            textEl.innerHTML = state.currentOpText;
+            if (opText.length > 15) textEl.style.fontSize = "clamp(1.5rem, 6vw, 2.5rem)";
+            else textEl.style.fontSize = "clamp(3rem, 12vw, 5rem)";
+
+            generateOptions(res);
         }
 
-        function generateOptions(correct, a, b) {
+        function generateOptions(correct) {
             const container = document.getElementById('options-container');
             container.innerHTML = '';
             let options = new Set([correct]);
             if (correct !== 0) options.add(-correct);
-            let magSum = Math.abs(a) + Math.abs(b);
-            let magDiff = Math.abs(Math.abs(a) - Math.abs(b));
-            let distractorMag = (Math.abs(correct) === magSum) ? magDiff : magSum;
-            if (state.mode === 'mul' || state.mode === 'div') {
-                distractorMag = Math.abs(a) + Math.abs(b);
-                if (distractorMag === Math.abs(correct)) distractorMag += 1;
+            
+            let range = Math.abs(correct) + 8;
+            if (range < 15) range = 15;
+
+            let loops = 0;
+            while (options.size < 4 && loops < 50) {
+                let val = rnd(-range, range);
+                options.add(val); loops++;
             }
-            options.add(distractorMag);
-            options.add(-distractorMag);
-            while (options.size < 4) { options.add(rnd(-18, 18)); }
+            if(options.size < 4) options.add(correct + 1);
+            if(options.size < 4) options.add(correct - 2);
+
             Array.from(options).sort(() => Math.random() - 0.5).slice(0, 4).forEach(val => {
                 let btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -555,30 +583,21 @@
             if (val === state.currentResult) {
                 playTone('win');
                 body.classList.add('flash-success');
-                state.correct++;
-                state.streak++;
-                
-                // --- LÓGICA DE GUARDADO DE RÉCORD ---
+                state.correct++; state.streak++;
                 if (state.streak > state.bestStreak) {
-                    state.bestStreak = state.streak;
-                    state.bestMode = state.mode; // Guardamos el modo actual (sum, sub, mix...)
-                    
+                    state.bestStreak = state.streak; state.bestMode = state.mode;
                     localStorage.setItem('aritmetica-streak-val', state.bestStreak);
                     localStorage.setItem('aritmetica-streak-mode', state.bestMode);
                 }
-                
-                updateStats();
-                updateStreakUI();
+                updateStats(); updateStreakUI();
                 document.getElementById('last-op-display').innerText = "Anterior: " + historyText;
                 generateProblem();
             } else {
                 playTone('lose');
                 body.classList.add('flash-error');
-                state.wrong++;
-                state.streak = 0;
-                updateStats();
-                updateStreakUI();
-                showFeedback(val);
+                state.wrong++; state.streak = 0;
+                updateStats(); updateStreakUI();
+                showFeedback();
             }
         }
 
@@ -592,18 +611,14 @@
             const streakCount = document.getElementById('streak-count');
             streakCount.innerText = state.streak;
             if (state.streak > 1) {
-                streakContainer.style.opacity = '1';
-                streakContainer.classList.remove('streak-pop');
-                void streakContainer.offsetWidth; 
-                streakContainer.classList.add('streak-pop');
-            } else {
-                streakContainer.style.opacity = '0';
-            }
+                streakContainer.style.opacity = '1'; streakContainer.classList.remove('streak-pop');
+                void streakContainer.offsetWidth; streakContainer.classList.add('streak-pop');
+            } else { streakContainer.style.opacity = '0'; }
         }
 
-        function showFeedback(wrongVal) {
+        function showFeedback() {
             document.getElementById('modal-problem').innerText = state.currentOpText;
-            document.getElementById('modal-explanation').innerHTML = `${state.currentExp}<br><br>Era <b>${fmtS(state.currentResult)}</b>`;
+            document.getElementById('modal-explanation').innerHTML = state.currentExp + `<br><br>Era <b>${fmtS(state.currentResult)}</b>`;
             document.getElementById('feedback-modal').style.display = 'flex';
         }
 
@@ -619,9 +634,7 @@
             const isAndroid = /Android/i.test(navigator.userAgent);
             showInstruct(isAndroid ? 'android' : 'ios');
         }
-        function closeInstallModal() {
-            document.getElementById('install-modal').style.display = 'none';
-        }
+        function closeInstallModal() { document.getElementById('install-modal').style.display = 'none'; }
         function showInstruct(platform) {
             const btns = document.querySelectorAll('#install-modal .modal-btn');
             btns[0].style.background = '#eee'; btns[0].style.color='#333';
@@ -630,20 +643,12 @@
             document.getElementById('instr-android').style.display = 'none';
             if(platform === 'ios') {
                 document.getElementById('instr-ios').style.display = 'block';
-                btns[0].style.background = 'var(--primary)'; 
-                btns[0].style.color = 'white';
+                btns[0].style.background = 'var(--primary)'; btns[0].style.color = 'white';
             } else {
                 document.getElementById('instr-android').style.display = 'block';
-                btns[1].style.background = 'var(--primary)';
-                btns[1].style.color = 'white';
+                btns[1].style.background = 'var(--primary)'; btns[1].style.color = 'white';
             }
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
