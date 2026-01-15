@@ -15,7 +15,7 @@
 ## 🔗 [PROBAR DEMO EN VIVO](https://aritmetica-eso.vercel.app)
 
 ![Vista Previa de la App](portada_enlace.png)
-*(Interfaz adaptada a Móvil y Escritorio)*
+*(Interfaz adaptada a Móvil y Escritorio con diseño de alta visibilidad)*
 
 </div>
 
@@ -25,7 +25,8 @@
 
 Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo**:
 
-* **🧠 Carga Cognitiva Reducida:** Interfaz limpia y sin distracciones que permite al alumno centrarse únicamente en la operación matemática.
+* **🧠 Carga Cognitiva Optimizada:** Interfaz limpia y elementos de gran tamaño para evitar distracciones.
+* **⚡ Jerarquía de Operaciones (PEMDAS):** Modo específico para practicar la prioridad de la multiplicación y división sobre la suma y resta.
 * **🔄 Concepto de Opuesto:** Refuerzo de la resta explicada como "la suma del opuesto".
 * **✖️ Regla de los Signos:** Práctica intensiva para la automatización de la multiplicación y división.
 
@@ -33,19 +34,19 @@ Esta herramienta no solo evalúa, sino que enseña mediante **feedback formativo
 
 ### 🎮 Gamificación y Motivación 
 * **🔥 Sistema de Rachas:** Contador de aciertos consecutivos en tiempo real con animaciones de fuego para motivar al alumno.
-* **🏆 Récord Personal:** El juego guarda automáticamente la mejor puntuación en la memoria del dispositivo. El alumno intenta superarse a sí mismo día tras día.
+* **🏆 Récord Personal:** El juego guarda automáticamente la mejor puntuación en la memoria del dispositivo.
 * **⚡ Feedback Sensorial:** Destellos visuales (pantalla verde al acertar, roja al fallar) y efectos de sonido generados en tiempo real.
 
 ### ⚙️ El Algoritmo Didáctico
 * **Generación Infinita:** Ejercicios ilimitados creados aleatoriamente.
-* **Optimización:** Reducción drástica de la aparición del cero y del uno para maximizar la práctica útil.
-* **Divisiones Exactas:** El sistema garantiza que las divisiones siempre den un número entero.
-* **Signo Explícito:** Resultados mostrados siempre con signo (ej: `+5` en lugar de `5`) para reforzar el concepto.
+* **Nivel Adaptativo en Divisiones:** El sistema alterna entre divisiones básicas (tablas de multiplicar) y divisiones con números más altos (hasta 180), garantizando siempre resultados exactos.
+* **Operaciones Combinadas Inteligentes:** Genera 5 tipos de estructuras clave (Producto+Suma, Suma+Producto, Cadenas, etc.) utilizando números controlados para que el alumno se centre en la jerarquía y los signos.
+* **Modo "Clean" (Sin Paréntesis):** Interruptor opcional para ocultar paréntesis redundantes (ej: mostrar `-5` en lugar de `(-5)` al inicio), permitiendo adaptar la dificultad visual.
 
 ### 🛡️ Sistema de Errores
-* **Distractores Inteligentes:** Las opciones incorrectas se generan basándose en los fallos comunes de los estudiantes (fallos de signo, fallos de cálculo cercano).
-* **Explicación Inmediata:** Ventana modal que explica paso a paso el error cometido.
-* **Historial:** Visualización de la operación anterior para facilitar la corrección en el cuaderno.
+* **Distractores Inteligentes:** Las opciones incorrectas se generan basándose en los fallos comunes (error de signo, error de cálculo cercano).
+* **Soluciones Paso a Paso:** En el modo "Combinadas", la ventana de error no solo da la solución, sino que **resuelve la operación paso a paso** para mostrar dónde se aplicó mal la jerarquía.
+* **Historial:** Visualización de la operación anterior en la parte inferior.
 
 ## 💻 Aspectos Técnicos
 
@@ -53,17 +54,17 @@ Este proyecto destaca por ser **ligero, rápido y funcionar sin internet**:
 
 | Característica | Descripción |
 | :--- | :--- |
-| **Estrategia "Network First"** | El Service Worker intenta descargar siempre la última versión si hay conexión. Si no hay internet, recurre automáticamente a la caché (Offline) sin que el usuario note nada. |
-| **Persistencia de Datos** | Uso de `localStorage` para guardar el récord personal del alumno sin necesidad de bases de datos ni cuentas de usuario. |
-| **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Cuenta con `manifest.json` para ejecutarse a pantalla completa como una app nativa. |
-| **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks ni librerías pesadas. Rendimiento máximo en dispositivos antiguos. |
+| **Estrategia "Network First"** | El Service Worker intenta descargar siempre la última versión si hay conexión. Si no hay internet, recurre automáticamente a la caché (Offline). |
+| **Persistencia de Datos** | Uso de `localStorage` para guardar el récord personal y la preferencia del "Modo Clean". |
+| **PWA (Progressive Web App)** | Instalable en móviles Android e iOS. Cuenta con `manifest.json` y modales de instrucciones personalizados por S.O. |
+| **Zero Dependencies** | Construida con **Vanilla JavaScript** puro. Sin frameworks ni librerías pesadas. |
 | **Web Audio API** | Efectos de sonido sintetizados matemáticamente en tiempo real (osciladores) para no depender de archivos mp3 externos. |
 
 ## 🚀 Cómo usar
 
 1.  **Acceso:** Entra en [aritmetica-eso.vercel.app](https://aritmetica-eso.vercel.app).
-2.  **Récord:** Fíjate en tu "Mayor Racha" en el menú principal e intenta superarla.
-3.  **Modo:** Selecciona el tipo de operación (Suma, Resta, Multiplicación, División o Mix Aleatorio).
+2.  **Configuración:** Activa o desactiva el interruptor "Sin Paréntesis" según el nivel de tus alumnos.
+3.  **Modo:** Selecciona Suma, Resta, Multiplicación, División, Combinadas o Mix.
 4.  **Instalación (Recomendado):**
     * **Android:** Pulsa el botón "📲 Instalar App" del menú principal.
     * **iOS (iPhone/iPad):** Pulsa el botón "📲 Instalar App" y sigue las instrucciones (Compartir -> Añadir a inicio).
